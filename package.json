@@ -1,0 +1,23 @@
+{
+  "name": "likeit-socket",
+  "version": "0.0.1",
+  "description": "pushes ad info to client",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zeushammer/hack-newad"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+
+  "dependencies": {
+    "express": "^4.13.3",
+    "config": "^1.16.0",
+    "socket.io": "^1.3.7",
+    "marklogic": "^1.0.3",
+    "lodash": "^3.10.1"
+  },
+
+  "scripts": {
+    "start": "node ./server.js"
+  }
+}
