@@ -3,14 +3,12 @@
 var express = require('express');
 var config = require('config');
 var http = require('http').Server(app);
-// var io = require('socket.io')(server);
 var io = require('socket.io')(http);
 var marklogic = require('marklogic');
 var _ = require('lodash');
 
 // create connection to marklogic
 var db = marklogic.createDatabaseClient(config.marklogic.connection);
-
 var app = express();
 
 app.use(express.static(__dirname + '/public'));
@@ -45,13 +43,15 @@ var serveRandomAd = function () {
 
 // serves ad by ad id
 var serveAd = function (id) {
-  console.log('finding ad:', id);
-  // var ad = _.find(ads, _.property('id', id));
   var ad = _.find(ads, function (currAd) {
     return currAd.id == id;
   });
-  console.log('returning ad:', ad);
-  io.emit('advert', ad);
+  if (ad) {
+    console.log('returning ad:', ad);
+    io.emit('advert', ad);
+  } else {
+    console.log('did not find ad:', ad);
+  }
   return ad;
 };
 
@@ -77,10 +77,17 @@ app.all('/trigger', function (req, res, next) {
   }
 });
 
+// return ads
+app.get('/ads', function (req, res, next) {
+  res.send(ads);
+});
+
+// index route
 app.get('/', function (req, res, next) {
   res.sendFile(__dirname = '/public/index.html');
 });
 
+// catch-all route (error)
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/public/error.html');
 });
