@@ -4,6 +4,7 @@
   },
 
   "socket": {
+    "port": 5050,
     "interval": 30000
   },
 
