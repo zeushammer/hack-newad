@@ -46,7 +46,10 @@ var serveRandomAd = function () {
 // serves ad by ad id
 var serveAd = function (id) {
   console.log('finding ad:', id);
-  var ad = _.find(ads, _.property('id', id));
+  // var ad = _.find(ads, _.property('id', id));
+  var ad = _.find(ads, function (currAd) {
+    return currAd.id == id;
+  });
   console.log('returning ad:', ad);
   io.emit('advert', ad);
   return ad;
@@ -82,10 +85,12 @@ app.get('*', function (req, res) {
   res.sendFile(__dirname + '/public/error.html');
 });
 
+// start http server (express)
 app.listen(config.app.port, function () {
   console.log('Server listening on: ' + config.app.port);
 });
 
+// start socket server (http)
 http.listen(config.socket.port, function () {
   console.log('Socket listening on: ' + config.socket.port);
 });
