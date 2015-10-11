@@ -10,9 +10,11 @@
   <script>
     var socket = io.connect(':5050');
   </script>
+
   <script id="template" type="text/x-handlebars-template">
     <li style="margin-bottom: 1em;"><button onclick="$.ajax('/trigger?id={{id}}');">{{id}} - {{title}}</button></li>
   </script>
+
   <script>
     function loadAds () {
       var source = $("#template").html();
@@ -26,15 +28,7 @@
       });
     }
 
-    function loadUser () {
-      var template = $('#template').html();
-      // Mustache.parse(template);
-      $.ajax('/ads').done(function (data) {
-        console.log({ads: data});
-        var rendered = Mustache.render(template, { ads: data });
-        $('#target').html(rendered);
-      });
-    }
+    $(document).ready(loadAds);
   </script>
 </body>
 </html>
