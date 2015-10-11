@@ -46,8 +46,9 @@ var serveRandomAd = function () {
 // serves ad by ad id
 var serveAd = function (id) {
   console.log('finding ad:', id);
-  var ad = _.find(ads, _.matchesProperty('id', id));
+  var ad = _.find(ads, _.property('id', id));
   console.log('returning ad:', ad);
+  io.emit('advert', ad);
   return ad;
 };
 
@@ -63,7 +64,8 @@ app.all('/trigger', function (req, res, next) {
   var ad = serveAd(id) || null;
   if (ad) {
     res.send({
-      status: 200
+      status: 200,
+      ad: ad
     });
   } else {
     res.send({
